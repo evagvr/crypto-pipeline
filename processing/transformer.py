@@ -3,6 +3,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class MessageTransformer:
     def transform(self, message: dict) -> dict:
         new_message = dict()
