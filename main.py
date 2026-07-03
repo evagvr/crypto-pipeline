@@ -22,7 +22,10 @@ def on_message(message):
     repository.save_trade(new_message)
 
 
-connection_string = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+connection_string = (
+    f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
+    f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+)
 repository = TradeRepository(connection_string=connection_string)
 validator = MessageValidator()
 transformer = MessageTransformer()
