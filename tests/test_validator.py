@@ -1,2 +1,37 @@
-def test_placeholder():
-    assert True
+from processing.validator import MessageValidator
+
+
+def test_valid_message_returns_true():
+    validator = MessageValidator()
+    message = {"s": "BTCUSTD", "p": "100", "q": "0.5", "T": 1234567890}
+
+    result = validator.validate(message)
+
+    assert result == True
+
+
+def test_none_message_returns_false():
+    validator = MessageValidator()
+    message = {}
+
+    result = validator.validate(message)
+
+    assert result == False
+
+
+def test_missing_fields_returns_false():
+    validator = MessageValidator()
+    message = {"s": "BTCUSTD", "p": "100", "q": "0.5"}
+
+    result = validator.validate(message)
+
+    assert result == False
+
+
+def test_negative_price_returns_false():
+    validator = MessageValidator()
+    message = {"s": "BTCUSTD", "p": "-100", "q": "0.5", "T": 1234567890}
+
+    result = validator.validate(message)
+
+    assert result == False
