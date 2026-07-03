@@ -7,7 +7,7 @@ def test_valid_message_returns_true():
 
     result = validator.validate(message)
 
-    assert result == True
+    assert result
 
 
 def test_none_message_returns_false():
@@ -16,7 +16,7 @@ def test_none_message_returns_false():
 
     result = validator.validate(message)
 
-    assert result == False
+    assert not result
 
 
 def test_missing_fields_returns_false():
@@ -25,7 +25,7 @@ def test_missing_fields_returns_false():
 
     result = validator.validate(message)
 
-    assert result == False
+    assert not result
 
 
 def test_negative_price_returns_false():
@@ -34,4 +34,4 @@ def test_negative_price_returns_false():
 
     result = validator.validate(message)
 
-    assert result == False
+    assert not result
