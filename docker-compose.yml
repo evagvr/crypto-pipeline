@@ -13,7 +13,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -91,5 +91,16 @@ services:
       - ./orchestration/dags:/opt/airflow/dags
     command: scheduler
     restart: always
+  pipeline:
+    build: .
+    container_name: crypto_pipeline_app
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    restart: on-failure
 volumes:
   postgres_data:

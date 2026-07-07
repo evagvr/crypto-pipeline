@@ -10,6 +10,6 @@ class MessageTransformer:
         new_message["symbol"] = message["s"]
         new_message["price"] = float(message["p"])
         new_message["quantity"] = float(message["q"])
-        new_message["timestamp"] = datetime.fromtimestamp(message["T"] / 1000)
+        new_message['timestamp'] = datetime.fromtimestamp(message['T'] / 1000).isoformat()
         logger.info("Transformed message")
         return new_message
