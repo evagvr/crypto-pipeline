@@ -8,11 +8,35 @@ def start():
 
 
 def verify_kafka():
-    print("Verifying Kafka connection")
+    from kafka import KafkaProducer
+
+    try:
+        producer = KafkaProducer(bootstrap_servers="kafka:9092")
+        producer.close()
+        print("Kafka connection succesful")
+    except Exception as e:
+        raise Exception(f"Kafka connection failed: {e}")
 
 
 def verify_db():
-    print("Verifying DB connection")
+    import os
+    from sqlalchemy import create_engine, text
+
+    POSTGRES_USER = os.getenv("POSTGRES_USER")
+    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+    POSTGRES_DB = os.getenv("POSTGRES_DB")
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST")
+    POSTGRES_PORT = os.getenv("POSTGRES_PORT")
+    connection_string = (
+        f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
+        f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    )
+    engine = create_engine(connection_string)
+    try:
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))
+    except Exception as e:
+        raise Exception(f"Database connection failed: {e}")
 
 
 with DAG(
